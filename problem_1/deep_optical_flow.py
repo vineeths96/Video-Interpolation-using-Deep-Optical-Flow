@@ -20,7 +20,7 @@ def deep_optical_flow(model_path, firstImage, secondImage, image_ind, dataset):
     optical_flow = flow_controller.predict(firstImage, secondImage)
 
     # Plot, visualize and save the optical flow
-    # flow_image = flow_controller.convert_flow_to_image(flow)
+    # flow_image = flow_controller.convert_flow_to_image(optical_flow)
     # cv2.imwrite(f'./results/problem_1/optical_flow/{dataset}/flow_map_{image_ind}.png', flow_image)
     # cv2.imshow("Flow image", flow_image)
     # cv2.waitKey()
