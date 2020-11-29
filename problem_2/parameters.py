@@ -1,0 +1,2 @@
+LR = 1e-4
+NUM_ITER = 1
