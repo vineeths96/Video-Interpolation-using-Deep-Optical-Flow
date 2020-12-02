@@ -1,5 +1,5 @@
-from problem_1.corridor import corridor_interpolation
-from problem_1.sphere import sphere_interpolation
+from pretrained.corridor import corridor_interpolation
+from pretrained.sphere import sphere_interpolation
 
 
 # Corridor dataset interpolation

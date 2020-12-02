@@ -161,7 +161,7 @@ def warp_flow(firstImage, secondImage, forward_flow, If, backward_flow, Ib, imag
                 It[i, j] = image1_interp(xt0[i, j], yt0[i, j])
 
     It = It.astype(np.int)
-    cv2.imwrite(f'./results/problem_2/interpolated_frames/{dataset}/interpolated_{image_ind + 1}.png', It)
+    cv2.imwrite(f'./results/finetuned/interpolated_frames/{dataset}/interpolated_{image_ind + 1}.png', It)
 
 
 def outside_in_fill(image):

@@ -140,8 +140,14 @@ dmypy.json
 # pycache
 */__pycache__/
 
+# models
+*/.pth.tar
 
 # Report Tex
 /results/report/
 
-
+# Custom layer files
+flownet2/networks/*/build
+flownet2/networks/*/*.egg-info
+flownet2/networks/*/dist
+flownet2/pretrained_models

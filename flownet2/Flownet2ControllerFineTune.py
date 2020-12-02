@@ -10,8 +10,8 @@ import flownet2.models as models
 import flownet2.losses as losses
 import flownet2.datasets as datasets
 from flownet2.utils import tools
-from problem_2.loss import unsupervised_loss
-from problem_2.interpolations import warp_unidirectional_flow
+from finetuned.loss import unsupervised_loss
+from finetuned.interpolations import warp_unidirectional_flow
 
 parser = argparse.ArgumentParser()
 
