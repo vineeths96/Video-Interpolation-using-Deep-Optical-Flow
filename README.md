@@ -85,7 +85,7 @@ python finetuned_interpolation.py
 
 ## Results
 
-
+The plots below shows the estimated optical flow for the datasets with the pre-trained model and the fine-tuned model. We can see that there are no significant change in the estimated optical flow between the two methods.
 
 |             Corridor Dataset             |               Pre-Trained Optical Flow                |               Fine-Tuned Optical Flow                |
 | :--------------------------------------: | :---------------------------------------------------: | :--------------------------------------------------: |
@@ -97,13 +97,13 @@ python finetuned_interpolation.py
 
 
 
+The plots below shows the interpolated frames for the datasets with the pre-trained model and the fine-tuned model. We can see that there is no significant change in quality of interpolated frames between the two methods.
 
-
-|                   Corridor Dataset                    |                   Pre-Trained Optical Flow                   |                   Fine-Tuned Optical Flow                    |
+|             Corridor Dataset Ground Truth             |                Pre-Trained Interpolated Frame                |                Fine-Tuned Interpolated Frame                 |
 | :---------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | ![Corridor](./results/docs/corridor_intermediate.gif) | ![CorridorPT](./results/docs/corridor_pretrained_interpolated.gif) | ![CorridorFT](./results/docs/corridor_finetuned_interpolated.gif) |
 
-|                  Sphere Dataset                   |                   Pre-Trained Optical Flow                   |                   Fine-Tuned Optical Flow                    |
+|            Sphere Dataset Ground Truth            |                Pre-Trained Interpolated Frame                |                Fine-Tuned Interpolated Frame                 |
 | :-----------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | ![Sphere](./results/docs/sphere_intermediate.gif) | ![SpherePT](./results/docs/sphere_pretrained_interpolated.gif) | ![SphereFT](./results/docs/sphere_finetuned_interpolated.gif) |
 
