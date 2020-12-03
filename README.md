@@ -89,6 +89,8 @@ python finetuned_interpolation.py
 
 
 
+A detailed description of algorithms and analysis of the results are available in the [Report](./results/report.pdf).
+
 The plots below shows the estimated optical flow for the datasets with the pre-trained model and the fine-tuned model. We can see that there are no significant change in the estimated optical flow between the two methods.
 
 |             Corridor Dataset             |               Pre-Trained Optical Flow                |               Fine-Tuned Optical Flow                |
