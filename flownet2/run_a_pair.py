@@ -5,12 +5,12 @@ import argparse
 from Networks.FlowNet2 import FlowNet2  # the path is depended on where you create this module
 from frame_utils import read_gen  # the path is depended on where you create this module
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # obtain the necessary args for construct the flownet framework
     parser = argparse.ArgumentParser()
-    parser.add_argument('--fp16', action='store_true', help='Run model in pseudo-fp16 mode (fp16 storage fp32 math).')
-    parser.add_argument("--rgb_max", type=float, default=255.)
-    
+    parser.add_argument("--fp16", action="store_true", help="Run model in pseudo-fp16 mode (fp16 storage fp32 math).")
+    parser.add_argument("--rgb_max", type=float, default=255.0)
+
     args = parser.parse_args()
 
     # initial a Net
@@ -29,17 +29,15 @@ if __name__ == '__main__':
     # process the image pair to obtian the flow
     result = net(im).squeeze()
 
-
     # save flow, I reference the code in scripts/run-flownet.py in flownet2-caffe project
     def writeFlow(name, flow):
-        f = open(name, 'wb')
-        f.write('PIEH'.encode('utf-8'))
+        f = open(name, "wb")
+        f.write("PIEH".encode("utf-8"))
         np.array([flow.shape[1], flow.shape[0]], dtype=np.int32).tofile(f)
         flow = flow.astype(np.float32)
         flow.tofile(f)
         f.flush()
         f.close()
-
 
     data = result.data.cpu().numpy().transpose(1, 2, 0)
     writeFlow("/home/hjj/flownet2-master/data/FlyingChairs_examples/0000007-img.flo", data)

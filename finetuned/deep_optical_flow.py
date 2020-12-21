@@ -40,10 +40,11 @@ def deep_optical_flow(model_path, firstImage, secondImage, lr, num_iter, image_i
 
     firstImage_grayscale = firstImage[:, :, 0]
     secondImage_grayscale = secondImage[:, :, 0]
-    Ix = scipy.ndimage.convolve(input=firstImage_grayscale, weights=kernel_x, mode='nearest')
-    Iy = scipy.ndimage.convolve(input=firstImage_grayscale, weights=kernel_y, mode='nearest')
-    It = scipy.ndimage.convolve(input=secondImage_grayscale, weights=kernel_t, mode='nearest') + scipy.ndimage.convolve(
-        input=firstImage_grayscale, weights=-kernel_t, mode='nearest')
+    Ix = scipy.ndimage.convolve(input=firstImage_grayscale, weights=kernel_x, mode="nearest")
+    Iy = scipy.ndimage.convolve(input=firstImage_grayscale, weights=kernel_y, mode="nearest")
+    It = scipy.ndimage.convolve(
+        input=secondImage_grayscale, weights=kernel_t, mode="nearest"
+    ) + scipy.ndimage.convolve(input=firstImage_grayscale, weights=-kernel_t, mode="nearest")
 
     flow = [optical_flow[:, :, 0], optical_flow[:, :, 1]]
     I = [Ix, Iy, It]

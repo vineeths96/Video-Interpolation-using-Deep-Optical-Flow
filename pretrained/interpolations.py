@@ -115,7 +115,8 @@ def warp_flow(firstImage, secondImage, forward_flow, If, backward_flow, Ib, imag
     for i in range(It.shape[0]):
         for j in range(It.shape[1]):
             if not (occlusion_first[i, j] or occlusion_second[i, j]) or (
-                    occlusion_first[i, j] and occlusion_second[i, j]):
+                occlusion_first[i, j] and occlusion_second[i, j]
+            ):
                 It[i, j] = t * image1_interp(xt0[i, j], yt0[i, j]) + (1 - t) * image2_interp(xt1[i, j], yt1[i, j])
             elif occlusion_first[i, j]:
                 It[i, j] = image2_interp(xt1[i, j], yt1[i, j])
@@ -123,7 +124,7 @@ def warp_flow(firstImage, secondImage, forward_flow, If, backward_flow, Ib, imag
                 It[i, j] = image1_interp(xt0[i, j], yt0[i, j])
 
     It = It.astype(np.int)
-    cv2.imwrite(f'./results/pretrained/interpolated_frames/{dataset}/interpolated_{image_ind + 1}.png', It)
+    cv2.imwrite(f"./results/pretrained/interpolated_frames/{dataset}/interpolated_{image_ind + 1}.png", It)
 
 
 def outside_in_fill(image):

@@ -2,8 +2,8 @@ from torch.autograd import Function, Variable
 from torch.nn.modules.module import Module
 import channelnorm_cuda
 
-class ChannelNormFunction(Function):
 
+class ChannelNormFunction(Function):
     @staticmethod
     def forward(ctx, input1, norm_deg=2):
         assert input1.is_contiguous()
@@ -22,18 +22,15 @@ class ChannelNormFunction(Function):
 
         grad_input1 = Variable(input1.new(input1.size()).zero_())
 
-        channelnorm_cuda.backward(input1, output, grad_output.data,
-                                              grad_input1.data, ctx.norm_deg)
+        channelnorm_cuda.backward(input1, output, grad_output.data, grad_input1.data, ctx.norm_deg)
 
         return grad_input1, None
 
 
 class ChannelNorm(Module):
-
     def __init__(self, norm_deg=2):
         super(ChannelNorm, self).__init__()
         self.norm_deg = norm_deg
 
     def forward(self, input1):
         return ChannelNormFunction.apply(input1, self.norm_deg)
-

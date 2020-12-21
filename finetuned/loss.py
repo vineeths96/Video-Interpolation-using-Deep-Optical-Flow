@@ -14,9 +14,12 @@ def smoothness_loss(flow):
     smooth_loss = 0
     for i in range(u.shape[0] - 1):
         for j in range(u.shape[1] - 1):
-            smooth_loss += charbonnier_penalty(u[i, j] - u[i + 1, j]) + charbonnier_penalty(
-                u[i, j] - u[i, j + 1]) + charbonnier_penalty(v[i, j] - v[i + 1, j]) + charbonnier_penalty(
-                v[i, j] - v[i, j + 1])
+            smooth_loss += (
+                charbonnier_penalty(u[i, j] - u[i + 1, j])
+                + charbonnier_penalty(u[i, j] - u[i, j + 1])
+                + charbonnier_penalty(v[i, j] - v[i + 1, j])
+                + charbonnier_penalty(v[i, j] - v[i, j + 1])
+            )
 
     return Variable(smooth_loss, requires_grad=True)
 

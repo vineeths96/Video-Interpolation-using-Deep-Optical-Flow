@@ -15,73 +15,109 @@ from finetuned.interpolations import warp_unidirectional_flow
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--start_epoch', type=int, default=1)
-parser.add_argument('--total_epochs', type=int, default=10000)
-parser.add_argument('--batch_size', '-b', type=int, default=8, help="Batch size")
-parser.add_argument('--train_n_batches', type=int, default=-1,
-                    help='Number of min-batches per epoch. If < 0, it will be determined by training_dataloader')
-parser.add_argument('--crop_size', type=int, nargs='+', default=[256, 256],
-                    help="Spatial dimension to crop training samples for training")
-parser.add_argument('--gradient_clip', type=float, default=None)
-parser.add_argument('--schedule_lr_frequency', type=int, default=0, help='in number of iterations (0 for no schedule)')
-parser.add_argument('--schedule_lr_fraction', type=float, default=10)
-parser.add_argument("--rgb_max", type=float, default=255.)
+parser.add_argument("--start_epoch", type=int, default=1)
+parser.add_argument("--total_epochs", type=int, default=10000)
+parser.add_argument("--batch_size", "-b", type=int, default=8, help="Batch size")
+parser.add_argument(
+    "--train_n_batches",
+    type=int,
+    default=-1,
+    help="Number of min-batches per epoch. If < 0, it will be determined by training_dataloader",
+)
+parser.add_argument(
+    "--crop_size",
+    type=int,
+    nargs="+",
+    default=[256, 256],
+    help="Spatial dimension to crop training samples for training",
+)
+parser.add_argument("--gradient_clip", type=float, default=None)
+parser.add_argument("--schedule_lr_frequency", type=int, default=0, help="in number of iterations (0 for no schedule)")
+parser.add_argument("--schedule_lr_fraction", type=float, default=10)
+parser.add_argument("--rgb_max", type=float, default=255.0)
 
-parser.add_argument('--number_workers', '-nw', '--num_workers', type=int, default=8)
-parser.add_argument('--number_gpus', '-ng', type=int, default=-1, help='number of GPUs to use')
-parser.add_argument('--no_cuda', action='store_true')
+parser.add_argument("--number_workers", "-nw", "--num_workers", type=int, default=8)
+parser.add_argument("--number_gpus", "-ng", type=int, default=-1, help="number of GPUs to use")
+parser.add_argument("--no_cuda", action="store_true")
 
-parser.add_argument('--seed', type=int, default=1)
-parser.add_argument('--name', default='run', type=str, help='a name to append to the save directory')
-parser.add_argument('--save', '-s', default='./work', type=str, help='directory for saving')
+parser.add_argument("--seed", type=int, default=1)
+parser.add_argument("--name", default="run", type=str, help="a name to append to the save directory")
+parser.add_argument("--save", "-s", default="./work", type=str, help="directory for saving")
 
-parser.add_argument('--validation_frequency', type=int, default=5, help='validate every n epochs')
-parser.add_argument('--validation_n_batches', type=int, default=-1)
-parser.add_argument('--render_validation', action='store_true',
-                    help='run inference (save flows to file) and every validation_frequency epoch')
+parser.add_argument("--validation_frequency", type=int, default=5, help="validate every n epochs")
+parser.add_argument("--validation_n_batches", type=int, default=-1)
+parser.add_argument(
+    "--render_validation",
+    action="store_true",
+    help="run inference (save flows to file) and every validation_frequency epoch",
+)
 
-parser.add_argument('--inference', action='store_true')
-parser.add_argument('--inference_size', type=int, nargs='+', default=[-1, -1],
-                    help='spatial size divisible by 64. default (-1,-1) - largest possible valid size would be used')
-parser.add_argument('--inference_batch_size', type=int, default=1)
-parser.add_argument('--inference_n_batches', type=int, default=-1)
-parser.add_argument('--save_flow', action='store_true', help='save predicted flows to file')
+parser.add_argument("--inference", action="store_true")
+parser.add_argument(
+    "--inference_size",
+    type=int,
+    nargs="+",
+    default=[-1, -1],
+    help="spatial size divisible by 64. default (-1,-1) - largest possible valid size would be used",
+)
+parser.add_argument("--inference_batch_size", type=int, default=1)
+parser.add_argument("--inference_n_batches", type=int, default=-1)
+parser.add_argument("--save_flow", action="store_true", help="save predicted flows to file")
 
-parser.add_argument('--resume', default='', type=str, metavar='PATH', help='path to latest checkpoint (default: none)')
-parser.add_argument('--log_frequency', '--summ_iter', type=int, default=1, help="Log every n batches")
+parser.add_argument("--resume", default="", type=str, metavar="PATH", help="path to latest checkpoint (default: none)")
+parser.add_argument("--log_frequency", "--summ_iter", type=int, default=1, help="Log every n batches")
 
-parser.add_argument('--skip_training', action='store_true')
-parser.add_argument('--skip_validation', action='store_true')
+parser.add_argument("--skip_training", action="store_true")
+parser.add_argument("--skip_validation", action="store_true")
 
-parser.add_argument('--fp16', action='store_true', help='Run model in pseudo-fp16 mode (fp16 storage fp32 math).')
-parser.add_argument('--fp16_scale', type=float, default=1024.,
-                    help='Loss scaling, positive power of 2 values can improve fp16 convergence.')
+parser.add_argument("--fp16", action="store_true", help="Run model in pseudo-fp16 mode (fp16 storage fp32 math).")
+parser.add_argument(
+    "--fp16_scale",
+    type=float,
+    default=1024.0,
+    help="Loss scaling, positive power of 2 values can improve fp16 convergence.",
+)
 
-tools.add_arguments_for_module(parser, models, argument_for_class='model', default='FlowNet2')
+tools.add_arguments_for_module(parser, models, argument_for_class="model", default="FlowNet2")
 
-tools.add_arguments_for_module(parser, losses, argument_for_class='loss', default='L1Loss')
+tools.add_arguments_for_module(parser, losses, argument_for_class="loss", default="L1Loss")
 
-tools.add_arguments_for_module(parser, torch.optim, argument_for_class='optimizer', default='Adam',
-                               skip_params=['params'])
+tools.add_arguments_for_module(
+    parser, torch.optim, argument_for_class="optimizer", default="Adam", skip_params=["params"]
+)
 
-tools.add_arguments_for_module(parser, datasets, argument_for_class='training_dataset', default='MpiSintelFinal',
-                               skip_params=['is_cropped'],
-                               parameter_defaults={'root': './MPI-Sintel/flow/training'})
+tools.add_arguments_for_module(
+    parser,
+    datasets,
+    argument_for_class="training_dataset",
+    default="MpiSintelFinal",
+    skip_params=["is_cropped"],
+    parameter_defaults={"root": "./MPI-Sintel/flow/training"},
+)
 
-tools.add_arguments_for_module(parser, datasets, argument_for_class='validation_dataset', default='MpiSintelClean',
-                               skip_params=['is_cropped'],
-                               parameter_defaults={'root': './MPI-Sintel/flow/training',
-                                                   'replicates': 1})
+tools.add_arguments_for_module(
+    parser,
+    datasets,
+    argument_for_class="validation_dataset",
+    default="MpiSintelClean",
+    skip_params=["is_cropped"],
+    parameter_defaults={"root": "./MPI-Sintel/flow/training", "replicates": 1},
+)
 
-tools.add_arguments_for_module(parser, datasets, argument_for_class='inference_dataset', default='MpiSintelClean',
-                               skip_params=['is_cropped'],
-                               parameter_defaults={'root': './MPI-Sintel/flow/training',
-                                                   'replicates': 1})
+tools.add_arguments_for_module(
+    parser,
+    datasets,
+    argument_for_class="inference_dataset",
+    default="MpiSintelClean",
+    skip_params=["is_cropped"],
+    parameter_defaults={"root": "./MPI-Sintel/flow/training", "replicates": 1},
+)
 
 args = parser.parse_args()
-if args.number_gpus < 0: args.number_gpus = torch.cuda.device_count()
-parser.add_argument('--IGNORE', action='store_true')
-defaults = vars(parser.parse_args(['--IGNORE']))
+if args.number_gpus < 0:
+    args.number_gpus = torch.cuda.device_count()
+parser.add_argument("--IGNORE", action="store_true")
+defaults = vars(parser.parse_args(["--IGNORE"]))
 
 args.model_class = tools.module_to_dict(models)[args.model]
 args.optimizer_class = tools.module_to_dict(torch.optim)[args.optimizer]
@@ -92,7 +128,7 @@ args.validation_dataset_class = tools.module_to_dict(datasets)[args.validation_d
 args.inference_dataset_class = tools.module_to_dict(datasets)[args.inference_dataset]
 
 args.cuda = not args.no_cuda and torch.cuda.is_available()
-args.log_file = join(args.save, 'args.txt')
+args.log_file = join(args.save, "args.txt")
 
 args.grads = {}
 
@@ -105,18 +141,16 @@ if args.inference:
 args.effective_batch_size = args.batch_size * args.number_gpus
 args.effective_inference_batch_size = args.inference_batch_size * args.number_gpus
 args.effective_number_workers = args.number_workers * args.number_gpus
-gpuargs = {'num_workers': args.effective_number_workers,
-           'pin_memory': True,
-           'drop_last': True} if args.cuda else {}
+gpuargs = {"num_workers": args.effective_number_workers, "pin_memory": True, "drop_last": True} if args.cuda else {}
 inf_gpuargs = gpuargs.copy()
-inf_gpuargs['num_workers'] = args.number_workers
+inf_gpuargs["num_workers"] = args.number_workers
 
 
 class FlowControllerFineTune:
-    def __init__(self, model_path='./flownet2/pretrained_models/FlowNet2_checkpoint.pth.tar'):
+    def __init__(self, model_path="./flownet2/pretrained_models/FlowNet2_checkpoint.pth.tar"):
         self.model = models.FlowNet2(args)
         checkpoint = torch.load(model_path)
-        self.model.load_state_dict(checkpoint['state_dict'])
+        self.model.load_state_dict(checkpoint["state_dict"])
         self.model.eval()
 
         if torch.cuda.is_available():
@@ -148,8 +182,9 @@ class FlowControllerFineTune:
         if not raw_save:
             view_shape[0] *= 2
 
-        out_video = cv2.VideoWriter(output_path + ".avi", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 24,
-                                    tuple(view_shape))
+        out_video = cv2.VideoWriter(
+            output_path + ".avi", cv2.VideoWriter_fourcc("M", "J", "P", "G"), 24, tuple(view_shape)
+        )
 
         while video.isOpened():
             ret, frame = video.read()
@@ -168,7 +203,7 @@ class FlowControllerFineTune:
                 else:
                     out_video.write(joint_image)
 
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
 
             else:
@@ -214,8 +249,9 @@ class FlowControllerFineTune:
         self.model.train()
         for _ in range(num_iter):
             output = self.model(data[0])
-            optical_flow = cv2.resize(output.data.cpu().numpy()[0].transpose(1, 2, 0),
-                                      (image1.shape[1], image1.shape[0]))
+            optical_flow = cv2.resize(
+                output.data.cpu().numpy()[0].transpose(1, 2, 0), (image1.shape[1], image1.shape[0])
+            )
 
             flow = [optical_flow[:, :, 0], optical_flow[:, :, 1]]
 
