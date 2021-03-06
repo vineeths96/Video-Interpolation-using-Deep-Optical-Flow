@@ -17,7 +17,7 @@
 
 </p>
 
-> tags : frame interpolation, optical flow, flownet2, digital video,deep learning, pytorch
+> tags : frame interpolation, optical flow, flownet2, digital video, deep learning, pytorch
 
 
 
