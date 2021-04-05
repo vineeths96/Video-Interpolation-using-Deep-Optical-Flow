@@ -73,7 +73,7 @@ python pretrained_interpolation.py
 
 ##### FlowNet2 with fine-tuning
 
-To interpolate the frame with the pretrained FlowNet2 model, run the following command. Set the parameters for fine-tuning in the [parameters](./finetuned/parameters.py) file This will interpolate the intermediate frames and store it in [this](./results/finetuned/interpolated_frames) folder.
+To interpolate the frame with the pretrained FlowNet2 model, run the following command. Set the parameters for fine-tuning in the [parameters](./finetuned/parameters.py) file. This will interpolate the intermediate frames and store it in [this](./results/finetuned/interpolated_frames) folder.
 
 ```shell
 python finetuned_interpolation.py
